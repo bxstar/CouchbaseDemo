@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="CouchbaseConsole" xmlns="http://ibatis.apache.org/mapping"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <statements>
+    <select id="GetPostCount" resultClass="int">
+      <![CDATA[
+      	select count(1) from Post
+      ]]>
+    </select>
+    <select id="SelectProductByPager" parameterClass="CouchbaseConsole.QueryParams" resultClass="CouchbaseConsole.Post">
+      <![CDATA[
+      	select top $count$ * from Post where PostId 
+	      not in
+	      (
+	       select top $index$ PostId from dbo.Post order by PostId
+	      )
+	      order by PostId
+      ]]>
+    </select>
+  </statements>
+</sqlMap >
